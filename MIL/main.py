@@ -188,4 +188,4 @@ if __name__ == "__main__":
     
         io.savemat('TA_loss_multi.mat', mdict={'TA': TA})
 
-        print("The mean and std of accuracy is:{}/{}".format(np.mean(TA, axis=1), np.std(TA, axis=1)))
+        print("The mean and std of accuracy is:{}/{}".format(np.mean(TA, axis=0), np.std(TA, axis=0)))
