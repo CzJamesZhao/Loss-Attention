@@ -145,3 +145,5 @@ if __name__ == "__main__":
           'Number of instances per bag, mean: {}, max: {}, min {}\n'.format(
         mnist_bags_test, len(test_loader),
         np.mean(len_bag_list_test), np.min(len_bag_list_test), np.max(len_bag_list_test)))
+    
+    # This script is a good example of how to adapt a traditional single-instance dataset into a multiple-instance learning scenario
