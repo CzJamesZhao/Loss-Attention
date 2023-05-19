@@ -8,13 +8,15 @@ from torchvision import datasets, transforms
 
 class MnistBags(data_utils.Dataset):
     def __init__(self, target_number=9, mean_bag_length=10, var_bag_length=2, num_bag=250, seed=1, train=True):
-        self.target_number = target_number
-        self.mean_bag_length = mean_bag_length
-        self.var_bag_length = var_bag_length
-        self.num_bag = num_bag
-        self.train = train
+        self.target_number = target_number # This parameter determines the digit that defines the label of a bag. If a bag contains at least one instance of this digit, the label of the bag is positive; otherwise, it's negative.
+        self.mean_bag_length = mean_bag_length # This parameter specifies the average number of images (instances) in each bag.
+        self.var_bag_length = var_bag_length #This parameter specifies the variance of the bag length
+        self.num_bag = num_bag #This parameter determines the total number of bags in the dataset. In this case,
+        self.train = train #This parameter specifies whether the generated dataset is for training or testing
 
         self.r = np.random.RandomState(seed)
+        #The actual value of self.r will be an instance of numpy.random.RandomState, 
+        #so it's not a simple numerical value. You can use it to generate random numbers
 
         self.num_in_train = 60000
         self.num_in_test = 10000
@@ -29,11 +31,14 @@ class MnistBags(data_utils.Dataset):
             loader = data_utils.DataLoader(datasets.MNIST('../datasets',
                                                           train=True,
                                                           download=True,
+                                                          #applying two transformations to the data: converting it to a PyTorch Tensor and normalizing it.
                                                           transform=transforms.Compose([
                                                               transforms.ToTensor(),
                                                               transforms.Normalize((0.1307,), (0.3081,))])),
                                            batch_size=self.num_in_train,
                                            shuffle=False)
+            # preparing the MNIST training dataset to be used in a PyTorch model.
+            # It's loading the data, applying necessary transformations, and setting up a DataLoader to handle mini-batches.
         else:
             loader = data_utils.DataLoader(datasets.MNIST('../datasets',
                                                           train=False,
@@ -45,6 +50,7 @@ class MnistBags(data_utils.Dataset):
                                            shuffle=False)
 
         for (batch_data, batch_labels) in loader:
+            #starts a loop that iterates over the dataset. At each iteration, a batch of data (batch_data) and the corresponding labels (batch_labels) are loaded. 
             all_imgs = batch_data
             all_labels = np.squeeze(batch_labels.numpy())
 
