@@ -63,9 +63,20 @@ class MnistBags(data_utils.Dataset):
 
             if bag_length < 1:
                 bag_length = 1
+            
+            #This line is randomly choosing two numbers from the list self.target_number without replacement.
+            #np.random.choice() 第一个参数可以是int类型，意味着从[0,int）选取
             target_num = np.squeeze(np.random.choice(np.squeeze(self.target_number), 2, replace=False))
+            
+            #getting the numbers from self.target_number that are not in target_num.
+            #此处由于target_num中没有9，因此结果永远是9
             r_target_num = np.squeeze(np.setdiff1d(np.squeeze(self.target_number), target_num))
+            #r_target_num = array(9)
+            
+            #getting the indices of the elements in self.target_number that are equal to r_target_num.
+            #由于等号左右都是array(9),因此选择9在的索引，indice=0
             class_num = np.squeeze(np.where(np.squeeze(self.target_number)==r_target_num))
+            
             if self.train:
                 r_index = np.squeeze(np.arange(all_labels.shape[0]))
                 for iter in range(target_num.size):
