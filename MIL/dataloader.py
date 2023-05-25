@@ -76,12 +76,19 @@ class MnistBags(data_utils.Dataset):
             #getting the indices of the elements in self.target_number that are equal to r_target_num.
             #由于等号左右都是array(9),因此选择9在的索引，indice=0
             class_num = np.squeeze(np.where(np.squeeze(self.target_number)==r_target_num))
+            #0
+            
+            TA=np.where(np.squeeze(self.target_number)==r_target_num)
+            #(array([0]),)
             
             if self.train:
+                #creates a 1D numpy array with the same length as all_labels 
                 r_index = np.squeeze(np.arange(all_labels.shape[0]))
-                for iter in range(target_num.size):
-                    r_idx = np.squeeze(np.where(all_labels[r_index]==target_num[iter]))
-                    r_index = np.squeeze(np.setdiff1d(r_index, r_index[r_idx]))
+                #we loop over the number of target numbers. 
+                for iter in range(target_num.size):  #For each target number:
+                    r_idx = np.squeeze(np.where(all_labels[r_index]==target_num[iter]))     #Find the indices (r_idx) in r_index where the corresponding label in all_labels is the same as the current target number. 
+                    r_index = np.squeeze(np.setdiff1d(r_index, r_index[r_idx]))   #Remove the indices found in the previous step from r_index. This is done to ensure that no instance labeled with the target number is included in the bag.
+                    
 
                 indices = np.squeeze(np.random.choice(r_index, bag_length, replace=False))
             else:
