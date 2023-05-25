@@ -87,10 +87,11 @@ class MnistBags(data_utils.Dataset):
                 #we loop over the number of target numbers. 
                 for iter in range(target_num.size):  #For each target number:
                     r_idx = np.squeeze(np.where(all_labels[r_index]==target_num[iter]))     #Find the indices (r_idx) in r_index where the corresponding label in all_labels is the same as the current target number. 
+                    #[    7    10    12 ... 59978 59980 59996]
                     r_index = np.squeeze(np.setdiff1d(r_index, r_index[r_idx]))   #Remove the indices found in the previous step from r_index. This is done to ensure that no instance labeled with the target number is included in the bag.
-                    
-
+                    #[    0     1     2 ... 59997 59998 59999]
                 indices = np.squeeze(np.random.choice(r_index, bag_length, replace=False))
+                #[50706 11448 46479 35931 18740 33955 13649 31420  2683 59816  6678 18613 39217]
             else:
                 r_index = np.squeeze(np.arange(all_labels.shape[0]))
                 for iter in range(target_num.size):
